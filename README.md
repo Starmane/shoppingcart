@@ -6,7 +6,7 @@ A small retail Shopping Cart system built as a set of Spring Boot microservices,
 
 To build and run this project you need:
 
-- **Docker** and **Docker Compose** (the entire system is run via a single `docker compose up --build` command)
+- **Docker** and **Docker Compose** (the entire system is run via a single `docker compose up` command)
 - **Java 21** (only required if building/running modules outside Docker, e.g. for local development in an IDE)
 - **Maven 3.9+** (only required for local builds outside Docker)
 - **IntelliJ IDEA** (or any Java IDE) - recommended for browsing/editing the source, with the **Lombok plugin** enabled (Settings → Plugins → Lombok, and enable annotation processing under Settings → Build → Compiler → Annotation Processors)
