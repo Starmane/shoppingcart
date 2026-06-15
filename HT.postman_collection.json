@@ -1,0 +1,274 @@
+{
+  "info": {
+    "_postman_id": "59a2d4fb-9190-4e32-8715-7dcdd441dabd",
+    "name": "HT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "9717498"
+  },
+  "item": [
+    {
+      "name": "Retrieve cart data for customer based on ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/carts/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add new ONE_TIME offer to customer cart",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"offerId\": \"offer-12345\",\r\n  \"prices\": [\r\n    {\r\n      \"type\": \"ONE_TIME\",\r\n      \"value\": 18.99,\r\n      \"currency\": \"EUR\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/carts/2/items",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2",
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add new RECURRING offer to customer cart",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"offerId\": \"offer-12346\",\r\n  \"prices\": [\r\n    {\r\n      \"type\": \"RECURRING\",\r\n      \"value\": 18.99,\r\n      \"currency\": \"EUR\",\r\n      \"numberOfRecurrences\": 5,\r\n      \"recurrenceUnit\": \"MONTH\" \r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/carts/2/items",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2",
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Modify existing ONE_TIME offer to RECURRING offer in a customer cart",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"offerId\": \"offer-12345\",\r\n  \"prices\": [\r\n    {\r\n      \"type\": \"RECURRING\",\r\n      \"value\": 18.99,\r\n      \"currency\": \"EUR\",\r\n      \"numberOfRecurrences\": 7,\r\n      \"recurrenceUnit\": \"DAY\" \r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/carts/2/items/offer-12345",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2",
+            "items",
+            "offer-12345"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Evict a cart",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/carts/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove an offer from customer cart",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/carts/2/items/offer-12345",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "carts",
+            "2",
+            "items",
+            "offer-12345"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch statistics for offer and action - 2026 - ADD",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/stats?offerId=offer-12345&action=ADD&from=2026-01-01T00:00:00Z&to=2026-12-31T23:59:59Z",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "stats"
+          ],
+          "query": [
+            {
+              "key": "offerId",
+              "value": "offer-12345"
+            },
+            {
+              "key": "action",
+              "value": "ADD"
+            },
+            {
+              "key": "from",
+              "value": "2026-01-01T00:00:00Z"
+            },
+            {
+              "key": "to",
+              "value": "2026-12-31T23:59:59Z"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch statistics for offer and action - 2026 - MODIFY",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/stats?offerId=offer-12345&action=MODIFY&from=2026-01-01T00:00:00Z&to=2026-12-31T23:59:59Z",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "stats"
+          ],
+          "query": [
+            {
+              "key": "offerId",
+              "value": "offer-12345"
+            },
+            {
+              "key": "action",
+              "value": "MODIFY"
+            },
+            {
+              "key": "from",
+              "value": "2026-01-01T00:00:00Z"
+            },
+            {
+              "key": "to",
+              "value": "2026-12-31T23:59:59Z"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch statistics for offer and action - 2026 - DELETE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/stats?offerId=offer-12345&action=DELETE&from=2026-01-01T00:00:00Z&to=2026-12-31T23:59:59Z",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "stats"
+          ],
+          "query": [
+            {
+              "key": "offerId",
+              "value": "offer-12345"
+            },
+            {
+              "key": "action",
+              "value": "DELETE"
+            },
+            {
+              "key": "from",
+              "value": "2026-01-01T00:00:00Z"
+            },
+            {
+              "key": "to",
+              "value": "2026-12-31T23:59:59Z"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

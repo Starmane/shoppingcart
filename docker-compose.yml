@@ -1,0 +1,114 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - cart-service
+      - stats-service
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+
+  cart-service:
+    build:
+      context: .
+      dockerfile: cart-service/Dockerfile
+    container_name: cart-service
+    depends_on:
+      mongo:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Dspring.data.mongodb.uri=mongodb://mongo:27017/cartdb"
+      MONGODB_URI: mongodb://mongo:27017/cartdb
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/cartdb
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "9090:9090"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+
+  stats-service:
+    build:
+      context: .
+      dockerfile: stats-service/Dockerfile
+    container_name: stats-service
+    depends_on:
+      mongo:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Dspring.data.mongodb.uri=mongodb://mongo:27017/cartdb"
+      MONGODB_URI: mongodb://mongo:27017/cartdb
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/cartdb
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - "9091:9091"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9091/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+
+volumes:
+  mongo-data:

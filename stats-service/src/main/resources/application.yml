@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: stats-service
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/cartdb}
+      auto-index-creation: true
+
+  threads:
+    virtual:
+      enabled: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: stats-service
+      auto-offset-reset: earliest
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "com.ht.stats.*"
+        spring.json.value.default.type: "com.ht.stats.messaging.CartEventMessage"
+    listener:
+      ack-mode: record
+      missing-topics-fatal: false
+
+server:
+  port: ${SERVER_PORT:9091}
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+app:
+  kafka:
+    topic:
+      cart-events: cart-events
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+  endpoint:
+    health:
+      show-details: always
+    env:
+      show-values: always

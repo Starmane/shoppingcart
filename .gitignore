@@ -1,0 +1,56 @@
+# ===== Maven =====
+target/
+!.mvn/wrapper/maven-wrapper.jar
+log/
+*.log
+
+# ===== Compiled class files =====
+*.class
+
+# ===== Java archives =====
+*.jar
+*.war
+*.ear
+*.nar
+
+# ===== IDE - IntelliJ =====
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ===== IDE - Eclipse =====
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+bin/
+
+# ===== IDE - VS Code =====
+.vscode/
+
+# ===== IDE - NetBeans =====
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ===== Spring Boot =====
+HELP.md
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Environment / secrets =====
+.env
+*.env.local
+
+# ===== Misc =====
+*.tmp
+*.bak
