@@ -171,4 +171,3 @@ Most design choices in this project were made **for the sake of simplicity**, gi
 - Add a `.gitignore` before version-controlling the project
 - Introduce API versioning (`/v1/carts`, `/v1/stats`)
 - Consider Kotlin for reduced boilerplate and improved null-safety
-- Organize test files by folders when new test requirements are introduced
