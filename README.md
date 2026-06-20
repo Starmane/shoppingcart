@@ -144,7 +144,6 @@ Most design choices in this project were made **for the sake of simplicity**, gi
 ### Code Quality & CI/CD
 - **No CI/CD pipeline.** A real project would include automated build/test/deploy pipelines (e.g. GitHub Actions, GitLab CI, Jenkins).
 - **No static analysis/linting.** Tools such as **SonarQube** (code quality, code smells, coverage) and **Snyk** (dependency vulnerability scanning) would be integrated into the build pipeline.
-- **No `.gitignore`.** This project is not currently version-controlled as a shared repository, so a `.gitignore` was not added. One would be required (excluding `target/`, IDE files, etc.) before pushing to source control.
 
 ### API Design
 - **No API versioning.** Endpoints are currently unversioned (e.g. `/carts`, `/stats`). A future improvement would introduce versioning, e.g. `/v1/carts`, `/v1/stats`, to allow non-breaking evolution of the API over time.
